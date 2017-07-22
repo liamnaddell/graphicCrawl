@@ -130,7 +130,7 @@ func main() {
 		for {
 			select {
 			case b := <-msgChan:
-				l.SetLabel(b)
+				appendText(l, b)
 			default:
 				time.Sleep(50*time.Millisecond)
 			}
@@ -147,4 +147,12 @@ func main() {
 	// Begin executing the GTK main loop.  This blocks until
 	// gtk.MainQuit() is run. 
 	gtk.Main()
+}
+
+func appendText(l *gtk.Label, b string) {
+	s, err := l.GetText()
+	if err != nil {
+		log.Fatal(err)
+	}
+	l.SetLabel(fmt.Sprintf("%s\n%s",s, b))
 }
